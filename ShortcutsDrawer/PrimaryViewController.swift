@@ -16,9 +16,12 @@ class PrimaryViewController: UIViewController, DrawerViewControllerDelegate {
     /// Container View Top Constraint
     @IBOutlet private weak var containerViewTopConstraint: NSLayoutConstraint!
 
-    /// Previous Container View Top Constraint
-    private var previousContainerViewTopConstraint: CGFloat = 0.0
+    /// Container View Bottom Constraint
+    @IBOutlet private weak var containerViewBottomConstraint: NSLayoutConstraint!
 
+    /// Previous Container View Top Constraint
+    private var previousContainerViewConstant: CGFloat = 0.0
+    
     /// Background Overlay View
     @IBOutlet private weak var backgroundColorOverlayView: UIView!
 
@@ -39,18 +42,20 @@ class PrimaryViewController: UIViewController, DrawerViewControllerDelegate {
     }
 
     private func configureDrawerViewController() {
+
+        // Set initial state
         if self.traitCollection.horizontalSizeClass == .regular && self.traitCollection.verticalSizeClass == .regular {
             let fullHeight = ExpansionState.height(forState: .fullHeight, inContainer: view.bounds)
-            let fullTopConstraint = view.bounds.height - fullHeight
-            containerViewTopConstraint.constant = fullTopConstraint
+            let fullBottomConstraint = view.bounds.height - fullHeight
+            containerViewBottomConstraint.constant = fullBottomConstraint
+            previousContainerViewConstant = containerViewBottomConstraint.constant
 
         } else {
             let compressedHeight = ExpansionState.height(forState: .compressed, inContainer: view.bounds)
             let compressedTopConstraint = view.bounds.height - compressedHeight
             containerViewTopConstraint.constant = compressedTopConstraint
+            previousContainerViewConstant = containerViewTopConstraint.constant
         }
-
-        previousContainerViewTopConstraint = containerViewTopConstraint.constant
 
         // NB: Handle this in a more clean and production ready fashion.
         if let drawerViewController = children.first as? DrawerViewController {
@@ -66,38 +71,72 @@ class PrimaryViewController: UIViewController, DrawerViewControllerDelegate {
         /// Disable selection on drawerViewController's content while translating it.
         drawerViewController.view.isUserInteractionEnabled = false
 
-        let newConstraintConstant = previousContainerViewTopConstraint + translationPoint.y
-        let fullHeight = ExpansionState.height(forState: .fullHeight, inContainer: view.bounds)
-        let fullHeightTopConstraint = view.bounds.height - fullHeight
-        let constraintPadding: CGFloat = 50.0
+        if self.traitCollection.horizontalSizeClass == .regular && self.traitCollection.verticalSizeClass == .regular {
+            let newConstraintConstant = previousContainerViewConstant - translationPoint.y
+            let fullHeight = ExpansionState.height(forState: .fullHeight, inContainer: view.bounds)
+            let fullHeightBottomConstraint = -(view.bounds.height - fullHeight)
+            let constraintPadding: CGFloat = 50.0
 
-        /// Limit the user from translating the drawer too far to the top
-        if (newConstraintConstant >= fullHeightTopConstraint - constraintPadding/2) {
-            containerViewTopConstraint.constant = newConstraintConstant
-            animateBackgroundFade(withCurrentTopConstraint: newConstraintConstant)
+            /// Limit the user from translating the drawer too far to the bottom
+            if (newConstraintConstant >= fullHeightBottomConstraint + constraintPadding/2) {
+                containerViewBottomConstraint.constant = newConstraintConstant
+                animateBackgroundFade(withCurrentTopConstraint: newConstraintConstant)
+            }
+
+        } else {
+            let newConstraintConstant = previousContainerViewConstant + translationPoint.y
+            let fullHeight = ExpansionState.height(forState: .fullHeight, inContainer: view.bounds)
+            let fullHeightTopConstraint = view.bounds.height - fullHeight
+            let constraintPadding: CGFloat = 50.0
+
+            /// Limit the user from translating the drawer too far to the top
+            if (newConstraintConstant >= fullHeightTopConstraint - constraintPadding/2) {
+                containerViewTopConstraint.constant = newConstraintConstant
+                animateBackgroundFade(withCurrentTopConstraint: newConstraintConstant)
+            }
         }
+
+
     }
 
     /// Animates the top constraint of the drawerViewController by a given constant
     /// using velocity to calculate a spring and damping animation effect.
-    private func animateTopConstraint(constant: CGFloat, withVelocity velocity: CGPoint) {
-        let previousConstraint = containerViewTopConstraint.constant
-        let distance = previousConstraint - constant
-        let springVelocity = max(1 / (abs(velocity.y / distance)), 0.08)
-        let springDampening = CGFloat(0.6)
+    private func animateConstraint(constant: CGFloat, withVelocity velocity: CGPoint) {
 
-        UIView.animate(withDuration: 0.5,
-                       delay: 0.0,
-                       usingSpringWithDamping: springDampening,
-                       initialSpringVelocity: springVelocity,
-                       options: [.curveLinear],
-                       animations: {
-                        self.containerViewTopConstraint.constant = constant
-                        self.previousContainerViewTopConstraint = constant
-                        self.animateBackgroundFade(withCurrentTopConstraint: constant)
-                        self.view.layoutIfNeeded()
-        },
-                       completion: nil)
+        if self.traitCollection.horizontalSizeClass == .regular && self.traitCollection.verticalSizeClass == .regular {
+            let previousConstraint = containerViewBottomConstraint.constant
+            let distance = previousConstraint - constant
+            let springVelocity = max(1 / (abs(velocity.y / distance)), 0.08)
+            let springDampening = CGFloat(0.6)
+
+            UIView.animate(withDuration: 0.5,
+                           delay: 0.0,
+                           usingSpringWithDamping: springDampening,
+                           initialSpringVelocity: springVelocity,
+                           options: [.curveLinear],
+                           animations: {
+                            self.containerViewBottomConstraint.constant = constant
+                            self.previousContainerViewConstant = constant
+                            self.view.layoutIfNeeded()
+            })
+        } else {
+            let previousConstraint = containerViewTopConstraint.constant
+            let distance = previousConstraint - constant
+            let springVelocity = max(1 / (abs(velocity.y / distance)), 0.08)
+            let springDampening = CGFloat(0.6)
+
+            UIView.animate(withDuration: 0.5,
+                           delay: 0.0,
+                           usingSpringWithDamping: springDampening,
+                           initialSpringVelocity: springVelocity,
+                           options: [.curveLinear],
+                           animations: {
+                            self.containerViewTopConstraint.constant = constant
+                            self.previousContainerViewConstant = constant
+                            self.animateBackgroundFade(withCurrentTopConstraint: constant)
+                            self.view.layoutIfNeeded()
+            })
+        }
     }
 
     /// Animates the alpha of the `backgroundColorOverlayView` based on the progress of the
@@ -123,60 +162,113 @@ class PrimaryViewController: UIViewController, DrawerViewControllerDelegate {
         let compressedHeight = ExpansionState.height(forState: .compressed, inContainer: view.bounds)
         let expandedHeight = ExpansionState.height(forState: .expanded, inContainer: view.bounds)
         let fullHeight = ExpansionState.height(forState: .fullHeight, inContainer: view.bounds)
-        let compressedTopConstraint = view.bounds.height - compressedHeight
-        let expandedTopConstraint = view.bounds.height - expandedHeight
-        let fullHeightTopConstraint = view.bounds.height - fullHeight
+        let compressedConstraint = view.bounds.height - compressedHeight
+        let expandedConstraint = view.bounds.height - expandedHeight
+        let fullHeightConstraint = view.bounds.height - fullHeight
         let constraintPadding: CGFloat = 50.0
         let velocityThreshold: CGFloat = 50.0
         drawerViewController.view.isUserInteractionEnabled = true
 
-        if velocity.y > velocityThreshold {
-            // Handle High Velocity Pan Gesture
-            if previousContainerViewTopConstraint == fullHeightTopConstraint {
-                if containerViewTopConstraint.constant <= expandedTopConstraint - constraintPadding {
-                    // From Full Height to Expanded
-                    drawerViewController.expansionState = .expanded
-                    animateTopConstraint(constant: expandedTopConstraint, withVelocity: velocity)
+        if self.traitCollection.horizontalSizeClass == .regular && self.traitCollection.verticalSizeClass == .regular {
+
+            if abs(velocity.y) > velocityThreshold {
+                // Handle High Velocity Pan Gesture
+                if previousContainerViewConstant == fullHeightConstraint {
+                    if containerViewBottomConstraint.constant <= expandedConstraint - constraintPadding {
+                        // From Full Height to Expanded
+                        drawerViewController.expansionState = .expanded
+                        animateConstraint(constant: expandedConstraint, withVelocity: velocity)
+                    } else {
+                        // From Full Height to Compressed
+                        drawerViewController.expansionState = .compressed
+                        animateConstraint(constant: compressedConstraint, withVelocity: velocity)
+                    }
+                } else if previousContainerViewConstant == expandedConstraint {
+                    if containerViewBottomConstraint.constant <= expandedConstraint - constraintPadding {
+                        // From Expanded to Full Height
+                        drawerViewController.expansionState = .fullHeight
+                        animateConstraint(constant: fullHeightConstraint, withVelocity: velocity)
+                    } else {
+                        // From Expanded to Compressed
+                        drawerViewController.expansionState = .compressed
+                        animateConstraint(constant: compressedConstraint, withVelocity: velocity)
+                    }
                 } else {
-                    // From Full Height to Compressed
-                    drawerViewController.expansionState = .compressed
-                    animateTopConstraint(constant: compressedTopConstraint, withVelocity: velocity)
-                }
-            } else if previousContainerViewTopConstraint == expandedTopConstraint {
-                if containerViewTopConstraint.constant <= expandedTopConstraint - constraintPadding {
-                    // From Expanded to Full Height
-                    drawerViewController.expansionState = .fullHeight
-                    animateTopConstraint(constant: fullHeightTopConstraint, withVelocity: velocity)
-                } else {
-                    // From Expanded to Compressed
-                    drawerViewController.expansionState = .compressed
-                    animateTopConstraint(constant: compressedTopConstraint, withVelocity: velocity)
+                    if containerViewBottomConstraint.constant <= expandedConstraint - constraintPadding {
+                        // From Compressed to Full Height
+                        drawerViewController.expansionState = .fullHeight
+                        animateConstraint(constant: fullHeightConstraint, withVelocity: velocity)
+                    } else {
+                        // From Compressed back to Compressed
+                        drawerViewController.expansionState = .compressed
+                        animateConstraint(constant: compressedConstraint, withVelocity: velocity)
+                    }
                 }
             } else {
-                if containerViewTopConstraint.constant <= expandedTopConstraint - constraintPadding {
-                    // From Compressed to Full Height
+                // Handle Low Velocity Pan Gesture
+                if containerViewBottomConstraint.constant >= expandedConstraint - constraintPadding {
+                    // Animate to the full height top constraint with velocity
                     drawerViewController.expansionState = .fullHeight
-                    animateTopConstraint(constant: fullHeightTopConstraint, withVelocity: velocity)
+                    animateConstraint(constant: fullHeightConstraint, withVelocity: velocity)
+                } else if containerViewBottomConstraint.constant > compressedConstraint - constraintPadding {
+                    // Animate to the expanded top constraint with velocity
+                    drawerViewController.expansionState = .expanded
+                    animateConstraint(constant: expandedConstraint, withVelocity: velocity)
                 } else {
-                    // From Compressed back to Compressed
+                    // Animate to the compressed top constraint with velocity
                     drawerViewController.expansionState = .compressed
-                    animateTopConstraint(constant: compressedTopConstraint, withVelocity: velocity)
+                    animateConstraint(constant: compressedConstraint, withVelocity: velocity)
                 }
             }
         } else {
-            // Handle Low Velocity Pan Gesture
-            if containerViewTopConstraint.constant <= expandedTopConstraint - constraintPadding {
-                // Animate to the full height top constraint with velocity
-                drawerViewController.expansionState = .fullHeight
-                animateTopConstraint(constant: fullHeightTopConstraint, withVelocity: velocity)
-            } else if containerViewTopConstraint.constant < compressedTopConstraint - constraintPadding {
-                // Animate to the expanded top constraint with velocity
-                drawerViewController.expansionState = .expanded
-                animateTopConstraint(constant: expandedTopConstraint, withVelocity: velocity)
+            if velocity.y > velocityThreshold {
+                // Handle High Velocity Pan Gesture
+                if previousContainerViewConstant == fullHeightConstraint {
+                    if containerViewTopConstraint.constant <= expandedConstraint - constraintPadding {
+                        // From Full Height to Expanded
+                        drawerViewController.expansionState = .expanded
+                        animateConstraint(constant: expandedConstraint, withVelocity: velocity)
+                    } else {
+                        // From Full Height to Compressed
+                        drawerViewController.expansionState = .compressed
+                        animateConstraint(constant: compressedConstraint, withVelocity: velocity)
+                    }
+                } else if previousContainerViewConstant == expandedConstraint {
+                    if containerViewTopConstraint.constant <= expandedConstraint - constraintPadding {
+                        // From Expanded to Full Height
+                        drawerViewController.expansionState = .fullHeight
+                        animateConstraint(constant: fullHeightConstraint, withVelocity: velocity)
+                    } else {
+                        // From Expanded to Compressed
+                        drawerViewController.expansionState = .compressed
+                        animateConstraint(constant: compressedConstraint, withVelocity: velocity)
+                    }
+                } else {
+                    if containerViewTopConstraint.constant <= expandedConstraint - constraintPadding {
+                        // From Compressed to Full Height
+                        drawerViewController.expansionState = .fullHeight
+                        animateConstraint(constant: fullHeightConstraint, withVelocity: velocity)
+                    } else {
+                        // From Compressed back to Compressed
+                        drawerViewController.expansionState = .compressed
+                        animateConstraint(constant: compressedConstraint, withVelocity: velocity)
+                    }
+                }
             } else {
-                // Animate to the compressed top constraint with velocity
-                drawerViewController.expansionState = .compressed
-                animateTopConstraint(constant: compressedTopConstraint, withVelocity: velocity)
+                // Handle Low Velocity Pan Gesture
+                if containerViewTopConstraint.constant <= expandedConstraint - constraintPadding {
+                    // Animate to the full height top constraint with velocity
+                    drawerViewController.expansionState = .fullHeight
+                    animateConstraint(constant: fullHeightConstraint, withVelocity: velocity)
+                } else if containerViewTopConstraint.constant < compressedConstraint - constraintPadding {
+                    // Animate to the expanded top constraint with velocity
+                    drawerViewController.expansionState = .expanded
+                    animateConstraint(constant: expandedConstraint, withVelocity: velocity)
+                } else {
+                    // Animate to the compressed top constraint with velocity
+                    drawerViewController.expansionState = .compressed
+                    animateConstraint(constant: compressedConstraint, withVelocity: velocity)
+                }
             }
         }
     }
@@ -187,7 +279,7 @@ class PrimaryViewController: UIViewController, DrawerViewControllerDelegate {
         /// but it could be animated better and add support for dismissing the keyboard).
         let fullHeight = ExpansionState.height(forState: .fullHeight, inContainer: view.bounds)
         let fullHeightTopConstraint = view.bounds.height - fullHeight
-        animateTopConstraint(constant: fullHeightTopConstraint, withVelocity: CGPoint(x: 0, y: -4536))
+        animateConstraint(constant: fullHeightTopConstraint, withVelocity: CGPoint(x: 0, y: -4536))
     }
 
 }
