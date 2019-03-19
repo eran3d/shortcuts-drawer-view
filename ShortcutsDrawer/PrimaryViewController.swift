@@ -39,9 +39,17 @@ class PrimaryViewController: UIViewController, DrawerViewControllerDelegate {
     }
 
     private func configureDrawerViewController() {
-        let compressedHeight = ExpansionState.height(forState: .compressed, inContainer: view.bounds)
-        let compressedTopConstraint = view.bounds.height - compressedHeight
-        containerViewTopConstraint.constant = compressedTopConstraint
+        if self.traitCollection.horizontalSizeClass == .regular && self.traitCollection.verticalSizeClass == .regular {
+            let fullHeight = ExpansionState.height(forState: .fullHeight, inContainer: view.bounds)
+            let fullTopConstraint = view.bounds.height - fullHeight
+            containerViewTopConstraint.constant = fullTopConstraint
+
+        } else {
+            let compressedHeight = ExpansionState.height(forState: .compressed, inContainer: view.bounds)
+            let compressedTopConstraint = view.bounds.height - compressedHeight
+            containerViewTopConstraint.constant = compressedTopConstraint
+        }
+
         previousContainerViewTopConstraint = containerViewTopConstraint.constant
 
         // NB: Handle this in a more clean and production ready fashion.
