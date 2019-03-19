@@ -166,7 +166,7 @@ class PrimaryViewController: UIViewController, DrawerViewControllerDelegate {
         let expandedConstraint = view.bounds.height - expandedHeight
         let fullHeightConstraint = view.bounds.height - fullHeight
         let constraintPadding: CGFloat = 50.0
-        let velocityThreshold: CGFloat = 50.0
+        let velocityThreshold: CGFloat = 200.0
         drawerViewController.view.isUserInteractionEnabled = true
 
         if self.traitCollection.horizontalSizeClass == .regular && self.traitCollection.verticalSizeClass == .regular {
@@ -200,8 +200,8 @@ class PrimaryViewController: UIViewController, DrawerViewControllerDelegate {
                         animateConstraint(constant: fullHeightConstraint, withVelocity: velocity)
                     } else {
                         // From Compressed back to Compressed
-                        drawerViewController.expansionState = .compressed
-                        animateConstraint(constant: compressedConstraint, withVelocity: velocity)
+                        drawerViewController.expansionState = .expanded
+                        animateConstraint(constant: expandedConstraint, withVelocity: velocity)
                     }
                 }
             } else {
