@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_7" orientation="portrait">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="ipad12_9rounded" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -14,19 +14,33 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="PrimaryViewController" customModule="ShortcutsDrawer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="boj-8E-Ofm">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="1346"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <view key="tableFooterView" alpha="0.0" contentMode="scaleToFill" id="2uQ-ER-rnQ">
+                                    <rect key="frame" x="0.0" y="0.0" width="1024" height="1024"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </view>
                             </tableView>
-                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2uQ-ER-rnQ">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8kW-0B-O6C">
-                                <rect key="frame" x="0.0" y="55" width="375" height="612"/>
+                                <rect key="frame" x="25" y="59" width="320" height="1257"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="320" id="CXU-lS-clx"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="CXU-lS-clx"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <mask key="constraints">
+                                        <include reference="CXU-lS-clx"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <segue destination="Sek-vi-QLv" kind="embed" id="aG2-gg-P3H"/>
                                 </connections>
@@ -34,20 +48,32 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="2uQ-ER-rnQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="B6p-y0-gBb"/>
+                            <constraint firstItem="8kW-0B-O6C" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="2:5" priority="750" id="2qN-yQ-xE0"/>
                             <constraint firstItem="8kW-0B-O6C" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="35" id="FId-Lf-Vi2"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8kW-0B-O6C" secondAttribute="trailing" id="GPI-FL-gye"/>
                             <constraint firstAttribute="bottomMargin" secondItem="boj-8E-Ofm" secondAttribute="bottom" id="HJJ-un-i7o"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="2uQ-ER-rnQ" secondAttribute="trailing" id="Vwl-NV-xWg"/>
-                            <constraint firstItem="2uQ-ER-rnQ" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="dGH-fF-f59"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="boj-8E-Ofm" secondAttribute="trailing" id="eet-um-fpk"/>
                             <constraint firstItem="boj-8E-Ofm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="h3W-WD-A9H"/>
-                            <constraint firstAttribute="bottom" secondItem="2uQ-ER-rnQ" secondAttribute="bottom" id="kaZ-Jn-nzP"/>
-                            <constraint firstItem="8kW-0B-O6C" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="qQb-72-ufV"/>
+                            <constraint firstItem="8kW-0B-O6C" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="qQb-72-ufV">
+                                <variation key="heightClass=regular-widthClass=regular" constant="25"/>
+                            </constraint>
                             <constraint firstItem="boj-8E-Ofm" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="rel-PT-1cY"/>
-                            <constraint firstItem="8kW-0B-O6C" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" priority="999" id="wrs-Ph-7ls"/>
+                            <constraint firstItem="8kW-0B-O6C" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" priority="999" id="wrs-Ph-7ls">
+                                <variation key="heightClass=regular-widthClass=regular" constant="-50"/>
+                            </constraint>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="2qN-yQ-xE0"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=regular">
+                            <mask key="constraints">
+                                <exclude reference="GPI-FL-gye"/>
+                                <include reference="2qN-yQ-xE0"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="DZI-62-pz4"/>
                     <connections>
@@ -57,28 +83,28 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="992.79999999999995" y="27.436281859070466"/>
+            <point key="canvasLocation" x="740" y="26"/>
         </scene>
         <!--Drawer View Controller-->
         <scene sceneID="ha1-YG-ezS">
             <objects>
                 <viewController id="Sek-vi-QLv" customClass="DrawerViewController" customModule="ShortcutsDrawer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fD7-dV-Mzs">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="612"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="1257"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h3G-Hj-IpG">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="101"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="101"/>
                                 <subviews>
                                     <searchBar contentMode="redraw" verticalCompressionResistancePriority="755" searchBarStyle="minimal" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="rkH-eu-4Q6">
-                                        <rect key="frame" x="5" y="10" width="365" height="40"/>
+                                        <rect key="frame" x="5" y="10" width="310" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="7kB-Aw-EYV"/>
                                         </constraints>
                                         <textInputTraits key="textInputTraits"/>
                                     </searchBar>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="755" text="Apps" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Lu-Gd-WTV">
-                                        <rect key="frame" x="12" y="66" width="351" height="29"/>
+                                        <rect key="frame" x="12" y="66" width="296" height="29"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -97,7 +123,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BgS-W2-zIi">
-                                <rect key="frame" x="0.0" y="101" width="375" height="511"/>
+                                <rect key="frame" x="0.0" y="101" width="320" height="1156"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
@@ -111,6 +137,7 @@
                             <constraint firstItem="BgS-W2-zIi" firstAttribute="leading" secondItem="fD7-dV-Mzs" secondAttribute="leading" id="nE7-NG-ob8"/>
                             <constraint firstAttribute="trailing" secondItem="BgS-W2-zIi" secondAttribute="trailing" id="nyE-bd-Cag"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="dcA-HC-uOV"/>
                     </view>
                     <connections>
                         <outlet property="headerViewTitleLabel" destination="6Lu-Gd-WTV" id="GAp-tZ-tEo"/>
