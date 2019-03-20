@@ -80,7 +80,6 @@ class PrimaryViewController: UIViewController, DrawerViewControllerDelegate {
             /// Limit the user from translating the drawer too far to the bottom
             if (newConstraintConstant >= fullHeightBottomConstraint + constraintPadding/2) {
                 containerViewBottomConstraint.constant = newConstraintConstant
-                animateBackgroundFade(withCurrentTopConstraint: newConstraintConstant)
             }
 
         } else {

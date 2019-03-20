@@ -58,7 +58,7 @@
                                 <variation key="heightClass=regular-widthClass=regular" constant="25"/>
                             </constraint>
                             <constraint firstItem="boj-8E-Ofm" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="rel-PT-1cY"/>
-                            <constraint firstAttribute="bottom" secondItem="8kW-0B-O6C" secondAttribute="bottom" id="wrs-Ph-7ls"/>
+                            <constraint firstAttribute="bottom" secondItem="8kW-0B-O6C" secondAttribute="bottom" priority="750" id="wrs-Ph-7ls"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <variation key="default">
@@ -92,40 +92,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="1307"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h3G-Hj-IpG">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="101"/>
-                                <subviews>
-                                    <searchBar contentMode="redraw" verticalCompressionResistancePriority="755" searchBarStyle="minimal" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="rkH-eu-4Q6">
-                                        <rect key="frame" x="5" y="10" width="310" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="7kB-Aw-EYV"/>
-                                        </constraints>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </searchBar>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="755" text="Apps" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Lu-Gd-WTV">
-                                        <rect key="frame" x="12" y="66" width="296" height="29"/>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="rkH-eu-4Q6" secondAttribute="trailing" constant="5" id="1TJ-Ry-MH0"/>
-                                    <constraint firstItem="rkH-eu-4Q6" firstAttribute="top" secondItem="h3G-Hj-IpG" secondAttribute="top" constant="10" id="3Yv-EM-J1L"/>
-                                    <constraint firstAttribute="trailing" secondItem="6Lu-Gd-WTV" secondAttribute="trailing" constant="12" id="BqR-qO-nTi"/>
-                                    <constraint firstAttribute="height" constant="101" id="JW8-sZ-QIK"/>
-                                    <constraint firstItem="6Lu-Gd-WTV" firstAttribute="top" secondItem="rkH-eu-4Q6" secondAttribute="bottom" constant="16" id="No0-y4-p96"/>
-                                    <constraint firstItem="6Lu-Gd-WTV" firstAttribute="leading" secondItem="h3G-Hj-IpG" secondAttribute="leading" constant="12" id="div-Xs-30y"/>
-                                    <constraint firstItem="rkH-eu-4Q6" firstAttribute="leading" secondItem="h3G-Hj-IpG" secondAttribute="leading" constant="5" id="rWy-3q-iW0"/>
-                                    <constraint firstAttribute="bottom" secondItem="6Lu-Gd-WTV" secondAttribute="bottom" constant="6" id="tba-en-B72"/>
-                                </constraints>
-                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BgS-W2-zIi">
-                                <rect key="frame" x="0.0" y="101" width="320" height="1206"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="1263"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jC3-B4-mYG">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jC3-B4-mYG" userLabel="Dragbar">
                                 <rect key="frame" x="0.0" y="1287" width="320" height="20"/>
                                 <color key="backgroundColor" red="0.87246691809999999" green="0.0009618469683" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -135,14 +106,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="BgS-W2-zIi" firstAttribute="top" secondItem="h3G-Hj-IpG" secondAttribute="bottom" id="AuT-4v-6Md"/>
-                            <constraint firstItem="h3G-Hj-IpG" firstAttribute="leading" secondItem="fD7-dV-Mzs" secondAttribute="leading" id="GSp-UW-BCY"/>
-                            <constraint firstItem="h3G-Hj-IpG" firstAttribute="top" secondItem="fD7-dV-Mzs" secondAttribute="top" constant="20" id="If0-jS-WGw">
-                                <variation key="heightClass=regular-widthClass=regular" constant="0.0"/>
-                            </constraint>
-                            <constraint firstAttribute="bottom" secondItem="jC3-B4-mYG" secondAttribute="bottom" id="LGX-dP-rbr"/>
+                            <constraint firstItem="BgS-W2-zIi" firstAttribute="top" secondItem="dcA-HC-uOV" secondAttribute="top" constant="20" id="JhX-F8-7Ot"/>
+                            <constraint firstAttribute="bottom" secondItem="jC3-B4-mYG" secondAttribute="bottom" priority="750" id="LGX-dP-rbr"/>
                             <constraint firstItem="jC3-B4-mYG" firstAttribute="leading" secondItem="dcA-HC-uOV" secondAttribute="leading" id="MZr-GW-SvJ"/>
-                            <constraint firstAttribute="trailing" secondItem="h3G-Hj-IpG" secondAttribute="trailing" id="TIK-5O-0mv"/>
                             <constraint firstAttribute="bottom" secondItem="BgS-W2-zIi" secondAttribute="bottom" id="TP4-Zw-Yye"/>
                             <constraint firstItem="dcA-HC-uOV" firstAttribute="trailing" secondItem="jC3-B4-mYG" secondAttribute="trailing" id="m95-Hg-DzE"/>
                             <constraint firstItem="BgS-W2-zIi" firstAttribute="leading" secondItem="fD7-dV-Mzs" secondAttribute="leading" id="nE7-NG-ob8"/>
@@ -163,8 +129,6 @@
                         </variation>
                     </view>
                     <connections>
-                        <outlet property="headerViewTitleLabel" destination="6Lu-Gd-WTV" id="GAp-tZ-tEo"/>
-                        <outlet property="searchBar" destination="rkH-eu-4Q6" id="7Xo-dN-wkk"/>
                         <outlet property="tableView" destination="BgS-W2-zIi" id="xDW-uj-dbq"/>
                     </connections>
                 </viewController>

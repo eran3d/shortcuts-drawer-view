@@ -19,15 +19,6 @@ class DrawerViewController: UIViewController, UIGestureRecognizerDelegate, UISea
     /// Pan Gesture Recognizer
     internal var panGestureRecognizer: UIPanGestureRecognizer?
 
-    /// Header View
-    @IBOutlet private weak var headerView: UIView!
-
-    /// Header Title View
-    @IBOutlet private weak var headerViewTitleLabel: UILabel!
-
-    /// Header Search bar
-    @IBOutlet private weak var searchBar: UISearchBar!
-
     /// Current Expansion State
     var expansionState: ExpansionState = .compressed {
         didSet {
@@ -60,7 +51,6 @@ class DrawerViewController: UIViewController, UIGestureRecognizerDelegate, UISea
     private func configureAppearance() {
         view.layer.cornerRadius = 8.0
         view.layer.masksToBounds = true
-        searchBar.delegate = self
     }
 
     // MARK: - Expansion State
@@ -68,15 +58,12 @@ class DrawerViewController: UIViewController, UIGestureRecognizerDelegate, UISea
     private func configure(forExpansionState expansionState: ExpansionState) {
         switch expansionState {
         case .compressed:
-            animateHeaderTitle(toAlpha: 0.0)
             tableView.panGestureRecognizer.isEnabled = false
             break
         case .expanded:
-            animateHeaderTitle(toAlpha: 1.0)
             tableView.panGestureRecognizer.isEnabled = false
             break
         case .fullHeight:
-            animateHeaderTitle(toAlpha: 1.0)
             if tableView.contentOffset.y > 0.0 {
                 panGestureRecognizer?.isEnabled = false
             } else {
@@ -84,13 +71,6 @@ class DrawerViewController: UIViewController, UIGestureRecognizerDelegate, UISea
             }
             tableView.panGestureRecognizer.isEnabled = true
             break
-        }
-    }
-
-    /// Animates the title in the header to visible/invisible in the compression state.
-    private func animateHeaderTitle(toAlpha alpha: CGFloat) {
-        UIView.animate(withDuration: 0.1) {
-            self.headerViewTitleLabel.alpha = alpha
         }
     }
 
