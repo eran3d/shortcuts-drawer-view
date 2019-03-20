@@ -59,18 +59,16 @@ class DrawerViewController: UIViewController, UIGestureRecognizerDelegate, UISea
         switch expansionState {
         case .compressed:
             tableView.panGestureRecognizer.isEnabled = false
-            break
         case .expanded:
-            tableView.panGestureRecognizer.isEnabled = false
-            break
+
+            tableView.panGestureRecognizer.isEnabled = tableView.contentOffset.y > 0.0 ? true : false
         case .fullHeight:
             if tableView.contentOffset.y > 0.0 {
-                panGestureRecognizer?.isEnabled = false
+                panGestureRecognizer?.isEnabled = true
             } else {
                 panGestureRecognizer?.isEnabled = true
             }
             tableView.panGestureRecognizer.isEnabled = true
-            break
         }
     }
 
@@ -116,9 +114,10 @@ class DrawerViewController: UIViewController, UIGestureRecognizerDelegate, UISea
         if otherGestureRecognizer == tableView.panGestureRecognizer {
             switch expansionState {
             case .compressed:
+                shouldHandleGesture = false
                 return false
             case .expanded:
-                return false
+                return true
             case .fullHeight:
                 if velocity.y > 0.0 {
                     // Panned Down
@@ -151,6 +150,12 @@ class DrawerViewController: UIViewController, UIGestureRecognizerDelegate, UISea
             shouldHandleGesture = true
             scrollView.isScrollEnabled = false
             scrollView.isScrollEnabled = true
+        }
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if scrollView is UITableView {
+            shouldHandleGesture = true
         }
     }
 
