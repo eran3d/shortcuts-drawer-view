@@ -16,6 +16,9 @@ class DrawerViewController: UIViewController, UIGestureRecognizerDelegate, UISea
     /// Table View
     @IBOutlet internal weak var tableView: UITableView!
 
+    /// Drag Bar
+    @IBOutlet weak var dragBar: UIView!
+
     /// Pan Gesture Recognizer
     internal var panGestureRecognizer: UIPanGestureRecognizer?
 
@@ -80,7 +83,7 @@ class DrawerViewController: UIViewController, UIGestureRecognizerDelegate, UISea
         panGestureRecognizer.cancelsTouchesInView = false
         panGestureRecognizer.delegate = self
 
-        view.addGestureRecognizer(panGestureRecognizer)
+        dragBar.addGestureRecognizer(panGestureRecognizer)
         self.panGestureRecognizer = panGestureRecognizer
     }
 
@@ -107,33 +110,6 @@ class DrawerViewController: UIViewController, UIGestureRecognizerDelegate, UISea
     /// tableView's gesture recognizer. Chooses to handle or ignore events based on the state of the drawer
     /// and the tableView's y contentOffset.
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        guard let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer else { return true }
-        let velocity = panGestureRecognizer.velocity(in: view.superview)
-        tableView.panGestureRecognizer.isEnabled = true
-
-        if otherGestureRecognizer == tableView.panGestureRecognizer {
-            switch expansionState {
-            case .compressed:
-                shouldHandleGesture = false
-                return false
-            case .expanded:
-                return true
-            case .fullHeight:
-                if velocity.y > 0.0 {
-                    // Panned Down
-                    if tableView.contentOffset.y > 0.0 {
-                        return true
-                    }
-                    shouldHandleGesture = true
-                    tableView.panGestureRecognizer.isEnabled = false
-                    return false
-                } else {
-                    // Panned Up
-                    shouldHandleGesture = false
-                    return true
-                }
-            }
-        }
         return false
     }
 

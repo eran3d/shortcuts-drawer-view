@@ -93,14 +93,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BgS-W2-zIi">
-                                <rect key="frame" x="0.0" y="44" width="320" height="1263"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="1239"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jC3-B4-mYG" userLabel="Dragbar">
-                                <rect key="frame" x="0.0" y="1287" width="320" height="20"/>
+                                <rect key="frame" x="0.0" y="1263" width="320" height="44"/>
                                 <color key="backgroundColor" red="0.87246691809999999" green="0.0009618469683" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="0cI-EL-fJa"/>
+                                    <constraint firstAttribute="height" constant="44" id="0cI-EL-fJa"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -109,10 +109,10 @@
                             <constraint firstItem="BgS-W2-zIi" firstAttribute="top" secondItem="dcA-HC-uOV" secondAttribute="top" constant="20" id="JhX-F8-7Ot"/>
                             <constraint firstAttribute="bottom" secondItem="jC3-B4-mYG" secondAttribute="bottom" priority="750" id="LGX-dP-rbr"/>
                             <constraint firstItem="jC3-B4-mYG" firstAttribute="leading" secondItem="dcA-HC-uOV" secondAttribute="leading" id="MZr-GW-SvJ"/>
-                            <constraint firstAttribute="bottom" secondItem="BgS-W2-zIi" secondAttribute="bottom" id="TP4-Zw-Yye"/>
                             <constraint firstItem="dcA-HC-uOV" firstAttribute="trailing" secondItem="jC3-B4-mYG" secondAttribute="trailing" id="m95-Hg-DzE"/>
                             <constraint firstItem="BgS-W2-zIi" firstAttribute="leading" secondItem="fD7-dV-Mzs" secondAttribute="leading" id="nE7-NG-ob8"/>
                             <constraint firstAttribute="trailing" secondItem="BgS-W2-zIi" secondAttribute="trailing" id="nyE-bd-Cag"/>
+                            <constraint firstItem="jC3-B4-mYG" firstAttribute="top" secondItem="BgS-W2-zIi" secondAttribute="bottom" constant="-20" id="rhb-bK-o0B"/>
                             <constraint firstItem="jC3-B4-mYG" firstAttribute="top" secondItem="fD7-dV-Mzs" secondAttribute="top" id="uTV-5h-RSs"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="dcA-HC-uOV"/>
@@ -129,6 +129,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="dragBar" destination="jC3-B4-mYG" id="z2T-jm-zkE"/>
                         <outlet property="tableView" destination="BgS-W2-zIi" id="xDW-uj-dbq"/>
                     </connections>
                 </viewController>
