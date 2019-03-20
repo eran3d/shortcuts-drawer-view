@@ -168,6 +168,8 @@ class PrimaryViewController: UIViewController, DrawerViewControllerDelegate {
         let velocityThreshold: CGFloat = 200.0
         drawerViewController.view.isUserInteractionEnabled = true
 
+        let releaseValue = containerViewBottomConstraint.constant
+
         if self.traitCollection.horizontalSizeClass == .regular && self.traitCollection.verticalSizeClass == .regular {
 
             if abs(velocity.y) > velocityThreshold {
@@ -205,19 +207,47 @@ class PrimaryViewController: UIViewController, DrawerViewControllerDelegate {
                 }
             } else {
                 // Handle Low Velocity Pan Gesture
-                if containerViewBottomConstraint.constant >= expandedConstraint - constraintPadding {
-                    // Animate to the full height top constraint with velocity
-                    drawerViewController.expansionState = .fullHeight
-                    animateConstraint(constant: fullHeightConstraint, withVelocity: velocity)
-                } else if containerViewBottomConstraint.constant > compressedConstraint - constraintPadding {
-                    // Animate to the expanded top constraint with velocity
-                    drawerViewController.expansionState = .expanded
-                    animateConstraint(constant: expandedConstraint, withVelocity: velocity)
-                } else {
-                    // Animate to the compressed top constraint with velocity
+                // Snap to nearest state after releasing Drag
+                let snapToCompressedThreshold = (expandedConstraint + compressedConstraint) / 2
+                let snapToFullHeightThreshold = (expandedConstraint + fullHeightConstraint) / 2
+
+                if releaseValue > snapToCompressedThreshold {
+                    print("snap to compressed")
                     drawerViewController.expansionState = .compressed
                     animateConstraint(constant: compressedConstraint, withVelocity: velocity)
+                } else if releaseValue < snapToFullHeightThreshold {
+                    print("snap to full height")
+                    drawerViewController.expansionState = .fullHeight
+                    animateConstraint(constant: fullHeightConstraint, withVelocity: velocity)
+                } else {
+                    print("snap to expanded")
+                    drawerViewController.expansionState = .expanded
+                    animateConstraint(constant: expandedConstraint, withVelocity: velocity)
                 }
+
+                print(releaseValue)
+
+//                print(containerViewBottomConstraint.constant)
+//                if containerViewBottomConstraint.constant >= compressedConstraint - constraintPadding {
+//                    drawerViewController.expansionState = .compressed
+//                    animateConstraint(constant: compressedConstraint, withVelocity: velocity)
+//                } else if containerViewBottomConstraint.constant < compressedConstraint - constraintPadding && containerViewBottomConstraint.constant > expandedConstraint - constraintPadding {
+//                    drawerViewController.expansionState = .expanded
+//                    animateConstraint(constant: compressedConstraint, withVelocity: velocity)
+//                }
+//                if containerViewBottomConstraint.constant >= expandedConstraint - constraintPadding {
+//                    // Animate to the full height top constraint with velocity
+//                    drawerViewController.expansionState = .fullHeight
+//                    animateConstraint(constant: fullHeightConstraint, withVelocity: velocity)
+//                } else if containerViewBottomConstraint.constant > compressedConstraint - constraintPadding {
+//                    // Animate to the expanded top constraint with velocity
+//                    drawerViewController.expansionState = .expanded
+//                    animateConstraint(constant: expandedConstraint, withVelocity: velocity)
+//                } else {
+//                    // Animate to the compressed top constraint with velocity
+//                    drawerViewController.expansionState = .compressed
+//                    animateConstraint(constant: compressedConstraint, withVelocity: velocity)
+//                }
             }
         } else {
             if velocity.y > velocityThreshold {

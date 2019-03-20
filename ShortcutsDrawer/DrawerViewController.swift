@@ -129,18 +129,6 @@ class DrawerViewController: UIViewController, UIGestureRecognizerDelegate, UISea
         }
     }
 
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if scrollView is UITableView {
-            shouldHandleGesture = true
-        }
-    }
-
-    // MARK: - UISearchBarDelegate
-
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        delegate?.drawerViewController(self, didChangeExpansionState: .fullHeight)
-    }
-
     // MARK: - Sample Cell Data
 
     internal static let sampleAppIcons: [UIImage] = [
